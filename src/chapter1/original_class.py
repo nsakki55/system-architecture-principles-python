@@ -1,29 +1,33 @@
-"""値の範囲を制限してプログラムをわかりやすく安全にする"""
 from __future__ import annotations
 
 
+class Quantity:
+    min: int = 1
+    max: int = 100
 
-class Quality:
     def __init__(self, value: int):
-        self.min: int = 1
-        self.max: int = 100
-
         if value < self.min:
             raise ValueError(f"Illegal: value is under {self.min}.")
-        if value < self.max:
+        if value > self.max:
             raise ValueError(f"Illegal: value is over {self.max}.")
 
         self.value = value
 
-    def can_add(self, other: Quality) -> bool:
+    def can_add(self, other: Quantity) -> bool:
         added = self._add_value(other)
         return added <= self.max
 
-    def add(self, other: Quality) -> Quality:
+    def add(self, other: Quantity) -> Quantity:
         if not self.can_add(other):
             raise ValueError(f"Illegal: total amount is over {self.max}.")
         added: int = self._add_value(other)
-        return Quality(added)
+        return Quantity(added)
 
-    def _add_value(self, other: Quality) -> int:
+    def _add_value(self, other: Quantity) -> int:
         return self.value + other.value
+
+
+if __name__ == "__main__":
+    quality = Quantity(10)
+    added_quality = quality.add(Quantity(20))
+    print(added_quality.value)

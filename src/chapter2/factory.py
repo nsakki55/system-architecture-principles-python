@@ -61,6 +61,7 @@ class FeeFactory:
 
 if __name__ == "__main__":
     fee_adult = FeeFactory.fee_by_name("adult")
-    print(fee_adult.yen)
     fee_child = FeeFactory.fee_by_name("child")
+
     print(fee_child.yen)
+    print(fee_adult.yen)

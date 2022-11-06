@@ -27,6 +27,5 @@ class StateTransitions:
 
 
 if __name__ == "__main__":
-    print(State.APPROVED)
     state = StateTransitions.can_transit(State.APPROVED, State.GOING)
     print(state)

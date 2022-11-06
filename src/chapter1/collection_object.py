@@ -9,9 +9,9 @@ class Customer:
     id: int
 
 
+@dataclass(frozen=True)
 class Customers:
-    def __init__(self, customers: List[Customer]) -> None:
-        self.customers: List[Customer] = customers
+    customers: List[Customer]
 
     def add(self, customer: Customer) -> Customers:
         return Customers(self.customers.append(customer))

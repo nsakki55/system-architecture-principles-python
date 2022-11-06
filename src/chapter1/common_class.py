@@ -1,8 +1,8 @@
-"""異なるクラスの重複したコードをなくす"""
 class ShippingCost:
+    minimum_for_free: int = 3000
+    cost: int = 500
+
     def __init__(self, base_price: int):
-        self.minimum_for_free: int = 3000
-        self.cost: int = 500
         self.base_price = base_price
 
     @property
@@ -16,3 +16,7 @@ class ShippingCost:
 def shipping_cost(base_price: int) -> int:
     cost = ShippingCost(base_price)
     return cost.amount
+
+
+if __name__ == "__main__":
+    print(shipping_cost((200)))

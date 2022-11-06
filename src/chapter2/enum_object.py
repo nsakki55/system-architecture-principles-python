@@ -84,8 +84,9 @@ def fee_for(fee_type_name: str) -> Yen:
 
 if __name__ == "__main__":
     fee_adult = fee_for("adult")
-    print(fee_adult)
     fee_child = fee_for("child")
-    print(fee_child)
     fee_senior = fee_for("senior")
+
     print(fee_senior)
+    print(fee_adult)
+    print(fee_child)
