@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from enum import Enum
 
 
 @dataclass(frozen=True)
@@ -50,20 +51,41 @@ class ChildFee(Fee):
         return self._label
 
 
-class Charge:
-    def __init__(self, fee: Fee):
-        self.fee = fee
+class SeniorFee(Fee):
+    _yen: Yen = Yen(80)
+    _label: str = "senior"
 
     @property
-    def yen(self):
-        return self.fee.yen
+    def yen(self) -> Yen:
+        return self._yen
+
+    @property
+    def label(self):
+        return self._label
+
+
+class FeeType(Enum):
+    adult = AdultFee()
+    child = ChildFee()
+    senior = SeniorFee()
+
+    @property
+    def yen(self) -> Yen:
+        return self.value.yen
+
+    @property
+    def label(self) -> str:
+        return self.value.label
+
+
+def fee_for(fee_type_name: str) -> Yen:
+    return FeeType[fee_type_name].yen
 
 
 if __name__ == "__main__":
-    adult = AdultFee()
-    child = ChildFee()
-    print(adult.yen)
-    print(child.yen)
-
-    charge = Charge(adult)
-    print(charge.yen)
+    fee_adult = fee_for("adult")
+    print(fee_adult)
+    fee_child = fee_for("child")
+    print(fee_child)
+    fee_senior = fee_for("senior")
+    print(fee_senior)

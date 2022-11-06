@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from enum import Enum
-from typing import Dict
+from typing import List
 
 
 @dataclass(frozen=True)
@@ -52,41 +51,35 @@ class ChildFee(Fee):
         return self._label
 
 
-class SeniorFee(Fee):
-    _yen: Yen = Yen(80)
-    _label: str = "senior"
+class Charge:
+    def __init__(self, fee: Fee):
+        self.fee = fee
 
     @property
-    def yen(self) -> Yen:
-        return self._yen
+    def yen(self):
+        return self.fee.yen
+
+
+class Reservation:
+    def __init__(self, fees: List[Fee]):
+        self.fees = fees
+
+    def add_fee(self, fee: Fee) -> None:
+        return self.fees.append(fee)
 
     @property
-    def label(self):
-        return self._label
-
-
-class FeeType(Enum):
-    adult = AdultFee()
-    child = ChildFee()
-    senior = SeniorFee()
-
-    @property
-    def yen(self) -> Yen:
-        return self.value.yen
-
-    @property
-    def label(self) -> str:
-        return self.value.label
-
-
-def fee_for(fee_type_name: str) -> Yen:
-    return FeeType[fee_type_name].yen
+    def fee_total(self) -> Yen:
+        total: Yen = Yen(0)
+        for each in self.fees:
+            total += each.yen
+        return total
 
 
 if __name__ == "__main__":
-    fee_adult = fee_for("adult")
-    print(fee_adult)
-    fee_child = fee_for("child")
-    print(fee_child)
-    fee_senior = fee_for("senior")
-    print(fee_senior)
+    adult = AdultFee()
+    child = ChildFee()
+    print(adult.yen)
+    print(child.yen)
+
+    charge = Charge(adult)
+    print(charge.yen)
