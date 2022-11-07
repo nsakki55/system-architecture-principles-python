@@ -21,16 +21,16 @@ class Money:
         return Money(self.value * multiple_value)
 
 
-def amount(unit_price: Money, quantity: Quantity):
+def discount(unit_price: Money, quantity: Quantity) -> Money:
+    discount_value = unit_price.value - quantity.discount
+    return Money(discount_value)
+
+
+def amount(unit_price: Money, quantity: Quantity) -> Money:
     if quantity.is_discountable:
         discount(unit_price, quantity)
 
     return unit_price.multiple(quantity.value)
-
-
-def discount(unit_price: Money, quantity: Quantity) -> Money:
-    discount_value = unit_price.value - quantity.discount
-    return Money(discount_value)
 
 
 if __name__ == "__main__":

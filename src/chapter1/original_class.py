@@ -2,24 +2,24 @@ from __future__ import annotations
 
 
 class Quantity:
-    min: int = 1
-    max: int = 100
+    MIN: int = 1
+    MAX: int = 100
 
     def __init__(self, value: int):
-        if value < self.min:
-            raise ValueError(f"Illegal: value is under {self.min}.")
-        if value > self.max:
-            raise ValueError(f"Illegal: value is over {self.max}.")
+        if value < self.MIN:
+            raise ValueError(f"Illegal: value is under {self.MIN}.")
+        if value > self.MAX:
+            raise ValueError(f"Illegal: value is over {self.MAX}.")
 
         self.value = value
 
     def can_add(self, other: Quantity) -> bool:
         added = self._add_value(other)
-        return added <= self.max
+        return added <= self.MAX
 
     def add(self, other: Quantity) -> Quantity:
         if not self.can_add(other):
-            raise ValueError(f"Illegal: total amount is over {self.max}.")
+            raise ValueError(f"Illegal: total amount is over {self.MAX}.")
         added: int = self._add_value(other)
         return Quantity(added)
 
