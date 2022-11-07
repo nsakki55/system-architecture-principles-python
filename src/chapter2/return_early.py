@@ -3,23 +3,30 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Yen(object):
-    value: int
+    value: float
+
 
 class Customer:
-    child_fee: Yen = Yen(100)
-    adult_fee: Yen = Yen(200)
-    senior_fee: Yen = Yen(150)
+    base_fee: Yen = Yen(100)
 
     def __init__(self, customer_type: str):
         self.customer_type = customer_type
 
     def fee(self) -> Yen:
         if self._is_child():
-            return self.child_fee
-        if self._is_adult():
-            return self.adult_fee
+            return self._child_fee
         if self._is_senior():
-            return self.senior_fee
+            return self._senior_fee
+
+        return self.base_fee
+
+    @property
+    def _child_fee(self) -> Yen:
+        return Yen(self.base_fee.value * 0.5)
+
+    @property
+    def _senior_fee(self) -> Yen:
+        return Yen(self.base_fee.value * 0.8)
 
     def _is_child(self) -> bool:
         return self.customer_type == "child"
